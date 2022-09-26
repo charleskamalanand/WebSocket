@@ -1,3 +1,9 @@
+## Steps to replicate
+
+* Explains a bidirectional chat with chat details being saved in DynamoDB.
+* Uses s3 website to broadcast message to all active users connected.
+* Has connect time,disconnect time and lastest chat/broadcast message in DynamoDB.
+* Refer below architecture for high level design.
 
 ## Architecture
 <p align="center">
@@ -32,12 +38,16 @@
       	
 		```bash
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+									 to be replace to something like below
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
 		```
 
       **2.3** Create Python Lambda "WebSocketBroadcast" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 10 to replace below line to add websocket API gateway connection url
       
 		```bash
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+									to be replace to something like below
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
 		```
 				
       **2.4** Create Python Lambda "WebSocketDisconnect" and add "AmazonDynamoDBFullAccess" managed IAM policy
@@ -52,15 +62,17 @@
 		
 		**iii.** Click "Next" to add "Integration type to Lambda for all three"
 		
-		* For "connect" Integration choose "WebSocketConnect" ARN
+		* For "$connect" Integration choose "WebSocketConnect" ARN
+		* For "$disconnect" Integration choose "WebSocketDisconnect" ARN
+		* For "sendMessage" Integration choose "WebSocketSendMessage" ARN
 		
-       **3.2** Create a POST method with below details.
-       
-		**i.** Under "Integration Request" redirect requests to "SetDetailsDynamoDB" lambda which was created
+		**iv.** Click "Next" to add "Stages" as "production" and "create and deploy"
 		
-       **3.3** Enable CORS 
+       **3.2** Create a REST API Gateway with below details.
        
-       **3.4** Deploy API under the Deployment stage as "dev"
+	    * Create new Resource named "broadcastmessage" and POST method and Under "Integration Request" redirect requests to "WebSocketBroadcast" lambda 
+		* Enable CORS
+		* Deploy API under the Deployment stage as "dev"
 		
   4. Setup S3 public bucket
 
@@ -83,29 +95,25 @@
 		}
 	  ```
 	
-       **4.2**  Edit "userDetails.html" and modify the below in line 41 to add API gateway connection url   
+       **4.2**  Edit "Broadcast.html" and modify the below in line 41 to add API gateway connection url   
         ```bash
 		fetch("#API_gateway_Connection_URL#/dev", requestOptions)"
+						to be replace to something like below	
+		fetch("#REST API connecttion URL#/dev/broadcastmessage", requestOptions)
 		```
-	
-       **4.3**  Edit "index.html" and modify the below in line 22 to add API gateway connection url  
-	   ```bash
-		url: '#API_gateway_Connection_URL#/dev',
-		```
-	
-       **4.4**  Upload "jquery-3.1.1.min","knockout-3.4.2","index.html" and "userDetails.html"
+		
+       **4.3**  Upload "Broadcast.html" to the bucket
    
   5. Access the website
 
-      **5.1**  Use "userDetails.html" to upload user details
+      **5.1**  Use "Broadcast.html" to broadcast message to all active users
       
-      **5.2**  Use "index.html" to access user details
 
 ## Youtube references
 
 <!-- YOUTUBE:START -->
-- [Get User details from DynamoDB](https://www.youtube.com/watch?v=PzNQXYWQQ7c)
-- [Upload User details to DynamoDB](https://www.youtube.com/watch?v=n5XFPLo4Bbw&t=2692s)
+- [Websocket setup](https://www.youtube.com/watch?v=FIrzkt7kH80&t=37s)
+- [Upload connection details to DynamoDB](https://www.youtube.com/watch?v=n5XFPLo4Bbw&t=2692s)
 <!-- YOUTUBE:END -->
 
 

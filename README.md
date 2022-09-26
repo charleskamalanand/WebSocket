@@ -107,6 +107,9 @@
   5. Access the website
 
       **5.1**  Use "Broadcast.html" to broadcast message to all active users
+
+  5. Use https://www.piesocket.com/websocket-tester and https://websocketking.com/ for testing.
+  6. Use {"action":"sendMessage","Message":"hi"} for sending message to server
       
 
 ## Youtube references

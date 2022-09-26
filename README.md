@@ -1,4 +1,4 @@
-## Steps to replicate
+## Highlights
 
 * Explains a bidirectional chat with chat details being saved in DynamoDB.
 * Uses s3 website to broadcast message to all active users connected.

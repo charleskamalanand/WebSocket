@@ -8,32 +8,48 @@
   
   1. Setup DynamoDB
   
-     **1.1** Create Table "UserDetails" with below fields with least provisioned capacity
+     **1.1** Create Table "chatDetails" with below fields with least provisioned capacity
      
-	    **i.** EmailID as String and as a Partition key
+	    **i.** connectionId as String and as a Partition key
 		
-	    **ii.** FName as String
+	    **ii.** BroadcastMessage as String
 		
-	    **iii.** LName as String
+	    **iii.** ConnectionTime as String
 		
-	    **iv.** LastestGreetingTime as String
-		
+	    **iv.** DisconnectTime as String
+
+	    **v.** LatestBroadcasttime as String
+
+	    **vi.** Latestmessagetime as String
+
+	    **vii.** Message as String		
 		
   2. Create Lambda functions
   
-      **2.1** Create Nodejs Lambda "ProcesseDetailsDynamoDB_Node_js" for getting details from DynamoDB and add "AmazonDynamoDBReadOnlyAccess" managed IAM policy 
+      **2.1** Create Python Lambda "WebSocketConnect" and add "AmazonDynamoDBFullAccess" managed IAM policy 
       
-      **2.2** Create Python Lambda "SetDetailsDynamoDB" for writing details to DynamoDB and add "AmazonDynamoDBFullAccess" managed IAM policy
+      **2.2** Create Python Lambda "WebSocketSendMessage" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 7 to replace below line to add websocket API gateway connection url
+				```bash
+				client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+				```
 
-  3. Create API gateway
+      **2.3** Create Python Lambda "WebSocketBroadcast" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 10 to replace below line to add websocket API gateway connection url
+				```bash
+				client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+				```
+      **2.4** Create Python Lambda "WebSocketDisconnect" and add "AmazonDynamoDBFullAccess" managed IAM policy
+
+  3. Create WebSocket API
   
-       **3.1** Create public API and create a GET method with below details.
+       **3.1** Create websocket API with below details
        
-		**i.** Under "Method Request" add "URL Query String Parameters" and add EmailID as required parameter
+		**i.** With "Route selection expression" as "request.body.action"
 		
-		**ii.** Under "Method Request" add "Request Validator" to be "Validate body, query string parameters, and headers"
+		**ii.** Click "Next" and Click "$ Add connect route","$Add disconnect route" and "'Add custom route' to be sendMessage"
 		
-		**iii.** Under "Integration Request" redirect requests to "ProcesseDetailsDynamoDB_Node_js" lambda which was created		
+		**iii.** Click "Next" to add "Integration type to Lambda for all three"
+		
+				* For "connect" Integration choose "WebSocketConnect" ARN
 		
        **3.2** Create a POST method with below details.
        

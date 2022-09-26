@@ -7,7 +7,7 @@ from time import gmtime, strftime
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('chatDetails')	
-client = boto3.client('apigatewaymanagementapi', endpoint_url="Websocket API gateway connection URL/production")
+client = boto3.client('apigatewaymanagementapi', endpoint_url="Websocket_API_gateway_connection_URL/production")
 
 def lambda_handler(event, context):
     try:

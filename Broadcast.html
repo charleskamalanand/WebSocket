@@ -38,7 +38,7 @@
                 redirect: 'follow'
             };
             // make API call with parameters and use promises to get response
-            fetch("https://50opsp1bk2.execute-api.us-east-1.amazonaws.com/dev/broadcastmessage", requestOptions)
+            fetch("#REST API connecttion URL#/dev/broadcastmessage", requestOptions)
             .then(response => response.text())
             .then(result => alert(JSON.parse(result).body))
             .catch(error => console.log('error', error));

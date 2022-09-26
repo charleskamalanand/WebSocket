@@ -38,7 +38,7 @@
       	
 		```bash
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
-									 to be replace to something like below
+									 to be replaced to something similar to below
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
 		```
 
@@ -46,7 +46,7 @@
       
 		```bash
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
-									to be replace to something like below
+									to be replaced to something similar to below
 		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
 		```
 				
@@ -98,8 +98,8 @@
        **4.2**  Edit "Broadcast.html" and modify the below in line 41 to add API gateway connection url   
         ```bash
 		fetch("#API_gateway_Connection_URL#/dev", requestOptions)"
-						to be replace to something like below	
-		fetch("#REST API connecttion URL#/dev/broadcastmessage", requestOptions)
+						to be replaced to something similar to below	
+		fetch("https://50opsp1bk2.execute-api.us-east-1.amazonaws.com/dev/broadcastmessage", requestOptions)
 		```
 		
        **4.3**  Upload "Broadcast.html" to the bucket

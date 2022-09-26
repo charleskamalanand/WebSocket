@@ -29,14 +29,17 @@
       **2.1** Create Python Lambda "WebSocketConnect" and add "AmazonDynamoDBFullAccess" managed IAM policy 
       
       **2.2** Create Python Lambda "WebSocketSendMessage" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 7 to replace below line to add websocket API gateway connection url
-				```bash
-				client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
-				```
+      	
+		```bash
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+		```
 
       **2.3** Create Python Lambda "WebSocketBroadcast" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 10 to replace below line to add websocket API gateway connection url
-				```bash
-				client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
-				```
+      
+		```bash
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+		```
+				
       **2.4** Create Python Lambda "WebSocketDisconnect" and add "AmazonDynamoDBFullAccess" managed IAM policy
 
   3. Create WebSocket API
@@ -49,7 +52,7 @@
 		
 		**iii.** Click "Next" to add "Integration type to Lambda for all three"
 		
-				* For "connect" Integration choose "WebSocketConnect" ARN
+		* For "connect" Integration choose "WebSocketConnect" ARN
 		
        **3.2** Create a POST method with below details.
        

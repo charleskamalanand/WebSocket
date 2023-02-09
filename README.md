@@ -12,6 +12,33 @@
 
 ## Steps to replicate
   
+Deploy using terraform file "main.tf" and modify below files  
+    **1** Create Python Lambda "WebSocketSendMessage" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 7 to replace below line to add websocket API gateway connection url
+      	
+		```bash
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+									 to be replaced to something similar to below
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
+		```
+
+    **2** Create Python Lambda "WebSocketBroadcast" and add "AmazonDynamoDBFullAccess" and "AmazonAPIGatewayInvokeFullAccess" managed IAM policy and edit line 10 to replace below line to add websocket API gateway connection url
+      
+		```bash
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="#Websocket_API_gateway_connection_URL#/production")
+									to be replaced to something similar to below
+		client = boto3.client('apigatewaymanagementapi', endpoint_url="https://3kzyms47sk.execute-api.us-east-1.amazonaws.com/production")
+		```
+    
+	
+	. Use https://www.piesocket.com/websocket-tester and https://websocketking.com/ for testing.
+	. Use {"action":"sendMessage","Message":"hi"} for sending message to server
+  
+  
+  
+  Or follow the below
+  
+  
+  
   1. Setup DynamoDB
   
      **1.1** Create Table "chatDetails" with below fields with least provisioned capacity

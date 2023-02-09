@@ -4,7 +4,7 @@ provider "aws" {
 
 variable "All_Variables" {
   type    = list(string)
-  default = ["us-east-2", "951560400874", "Dev", "Deployed from terraform"]
+  default = ["us-east-2", "9xxxxxxxxxx4", "Dev", "Deployed from terraform"]
 }
 
 data "archive_file" "lambda1-zip" {
